@@ -1,0 +1,9 @@
+# Jenkins Kubernetes credentials
+jenkins/kube/config
+
+# Jenkins local data
+jenkins/data/
+
+# IDE
+.idea/
+*.iml

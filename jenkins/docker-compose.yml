@@ -1,0 +1,31 @@
+services:
+
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: order-platform-jenkins
+
+    restart: unless-stopped
+
+    ports:
+      - "8090:8080"
+      - "50000:50000"
+    extra_hosts:
+      - "desktop-control-plane:host-gateway"
+    volumes:
+      # Jenkins persistent data
+      - jenkins_home:/var/jenkins_home
+
+      # Give Jenkins access to Docker Desktop
+      - /var/run/docker.sock:/var/run/docker.sock
+
+      # Give Jenkins access to your Kubernetes configuration
+      - ./kube/config:/var/jenkins_home/.kube/config:ro
+
+    environment:
+      - KUBECONFIG=/var/jenkins_home/.kube/config
+
+volumes:
+  jenkins_home:
