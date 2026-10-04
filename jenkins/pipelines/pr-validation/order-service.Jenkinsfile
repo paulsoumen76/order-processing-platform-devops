@@ -7,6 +7,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout Application') {
             steps {
                 git branch: 'main',
@@ -16,18 +17,21 @@ pipeline {
 
         stage('Build Order Service') {
             steps {
-                sh './gradlew :order-service:clean :order-service:build -x test'
+                sh '''
+                    chmod +x gradlew
+                    ./gradlew :order-service:clean :order-service:build -x test
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'PR build PASSED'
+            echo 'Order Service build PASSED'
         }
 
         failure {
-            echo 'PR build FAILED'
+            echo 'Order Service build FAILED'
         }
     }
 }
